@@ -91,6 +91,35 @@ worse than no price. It never queries a blockchain.
 **Notes.** The `Notes` section is observations, not faults. Pass them along in the same
 neutral register.
 
+## How much to report
+
+**Default to everything the tool returned.** Report every field, not a summary of the
+interesting ones. The person running this is usually inspecting an endpoint precisely
+because they don't yet know which field matters — dropping one to be concise forces another
+round trip. So unless asked otherwise, pass along:
+
+- price as both the human figure and the raw atomic number, with the token's decimals
+- every accepted network and token, not just the first or the cheapest
+- the pay-to address in full, never truncated
+- the x402 version found and where it was found (header vs body)
+- the settlement timeout, resource, scheme, and MIME type
+- any example request and response the endpoint publishes
+- every decoded header, the full `Notes` section, and the HTTP status
+- for `openapi`: which candidate paths were tried, which one resolved, and every row of the
+  comparison table — including rows where spec and live agree
+
+Narrow the output only when the prompt actually narrows it — "just the price", "which
+networks?", "is it Solana?", "one line". Then answer that and stop. A specific question is a
+request for a specific answer, not a cue to dump the rest alongside it.
+
+Two things that are not reasons to trim: length, and your own sense that a field is
+uninteresting. If the full output is long, give it structure — group it under headings or a
+table — rather than cutting it.
+
+When the tool errors or returns nothing, report the failure verbatim, including the exact
+message and status. Sandbox egress blocks, 404s on GET-only endpoints, and unrecognised
+tokens are all more useful quoted than paraphrased.
+
 ## Safety
 
 The tool refuses private, loopback, link-local, and internal addresses, and re-checks
