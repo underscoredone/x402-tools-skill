@@ -1,0 +1,8 @@
+node_modules/
+.DS_Store
+*.log
+.env
+.env.*
+
+# The bundled engine in lib/ is committed on purpose — it is what lets the skill run
+# with nothing installed. Do not add lib/ here.

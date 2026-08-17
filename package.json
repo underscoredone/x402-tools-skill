@@ -1,0 +1,35 @@
+{
+  "name": "x402-tools-skill",
+  "version": "1.0.0",
+  "description": "Claude skill: inspect x402 endpoints without paying. Decodes payment challenges and reads OpenAPI specs. No dependencies, no wallet, no keys.",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js",
+    "x402": "node scripts/x402.mjs",
+    "sync": "./scripts/sync-core.sh"
+  },
+  "keywords": [
+    "x402",
+    "claude-skill",
+    "agent-skill",
+    "mcp",
+    "payment-required",
+    "openapi",
+    "usdc",
+    "agent-payments"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/underscoredone/x402-tools-skill.git"
+  },
+  "bugs": {
+    "url": "https://github.com/underscoredone/x402-tools-skill/issues"
+  },
+  "homepage": "https://underscoredone.com/x402-tools",
+  "author": "One Scales Inc. (made by _done - underscoredone.com)",
+  "license": "MIT"
+}

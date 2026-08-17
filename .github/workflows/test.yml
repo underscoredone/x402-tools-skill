@@ -1,0 +1,30 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # 18 is the floor the skill claims to support; 22 is what most people run.
+        node: [18, 20, 22]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      # No install step on purpose. The skill has no dependencies, and if this ever
+      # needs one, that is a bug worth failing over.
+      - name: Test
+        run: npm test
+
+      - name: Check it runs from a clean checkout
+        run: node scripts/x402.mjs decode "$(printf '{"x402Version":2}' | base64)"
