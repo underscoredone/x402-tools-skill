@@ -204,9 +204,11 @@ then shows a side-by-side table of where the spec and the live endpoint differ.
 ## What it will not do
 
 - **Pay, sign, or hold a wallet.** By design, permanently.
-- **Call a blockchain.** Token decimals come from a built-in table, verified by hand. An
-  unknown token shows the raw number and says so rather than guessing — a wrong price is
-  worse than no price.
+- **Call a blockchain.** Token decimals come from a built-in table, verified by hand. For a
+  token that isn't in it, the tool will use a `decimals` the challenge declares in its
+  `extra` block — labelling that price as the endpoint's own claim — and otherwise shows the
+  raw number and says why rather than guessing. A declared `decimals` never overrides the
+  table, so a challenge cannot talk it into a wrong price.
 - **Reach private networks.** Refuses `192.168.x.x`, `localhost`, `169.254.169.254`,
   `*.internal` and friends; checks what a hostname actually resolves to, and checks again
   after every redirect.

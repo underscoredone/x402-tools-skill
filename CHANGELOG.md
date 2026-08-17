@@ -4,6 +4,16 @@ All notable changes to this skill. Format follows [Keep a Changelog](https://kee
 
 ## [Unreleased]
 
+### Fixed
+- Prices for tokens outside the built-in table are now converted when the challenge declares
+  its own `decimals` in `accepts[].extra`, instead of being printed as a raw atomic number.
+  Found on `api.syraa.fun/bitcoin`, which quotes WLFI on BNB Chain as `5000000000000000`
+  with `decimals: 18` — the real price, 0.005, was there in the challenge and being ignored.
+  Converted figures are labelled as the endpoint's own claim rather than one read off the
+  token contract. A declared `decimals` is ignored for tokens already in the table, and is
+  refused unless it is an integer between 0 and 36, so a malformed or hostile challenge
+  cannot shift a decimal point.
+
 ### Added
 - `SKILL.md`: a "How much to report" section — report every field the tool returned by
   default, and narrow only when the prompt narrows it.

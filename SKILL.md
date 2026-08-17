@@ -84,9 +84,14 @@ both and says which it found.
 spec being older than the endpoint it describes is ordinary. Report the difference; do
 not tell the user their API is broken.
 
-**Unknown tokens.** If the tool does not recognise a token it shows the raw number and
-says so rather than guessing the decimals. Do not guess on its behalf — a wrong price is
-worse than no price. It never queries a blockchain.
+**Unknown tokens.** If the tool does not recognise a token, it first looks for a
+`decimals` the endpoint declared in that option's `extra` block. If it finds one it
+converts the price and says the figure is the endpoint's own claim rather than one checked
+against the token contract — pass that caveat along. A `decimals` in `extra` is ignored for
+tokens the tool does know, so a challenge cannot talk it into a wrong price.
+
+With no table entry and no declared decimals, it shows the raw number and says why. Do not
+guess on its behalf — a wrong price is worse than no price. It never queries a blockchain.
 
 **Notes.** The `Notes` section is observations, not faults. Pass them along in the same
 neutral register.
