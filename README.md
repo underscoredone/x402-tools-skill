@@ -53,21 +53,52 @@ cd ~/.claude/skills/x402-tools && git pull
 
 ### Claude on the web (claude.ai)
 
-The web app can't read your disk, so upload the skill as a zip:
+The web app can't read your disk, so upload the skill as a zip. No command line needed:
+
+1. On [the GitHub repo](https://github.com/underscoredone/x402-tools-skill), click the green
+   **Code** button → **Download ZIP**.
+2. Unzip it (double-click). You get a folder named `x402-tools-skill-main`.
+3. Rename that folder to `x402-tools` — the folder name becomes the skill name, so drop the
+   `-main`.
+4. Right-click it → **Compress "x402-tools"** to get `x402-tools.zip`. Zip the whole folder,
+   not just `SKILL.md`; the tools live in `lib/` and `scripts/`.
+5. In Claude: **Settings → Skills → Add ▾ → Upload a skill**, and choose `x402-tools.zip`.
+
+If you'd rather use a terminal, steps 1–4 are:
 
 ```bash
-git clone https://github.com/underscoredone/x402-tools-skill.git
-zip -r x402-tools.zip x402-tools-skill -x '*.git*'
+git clone https://github.com/underscoredone/x402-tools-skill.git x402-tools
+zip -r x402-tools.zip x402-tools -x '*.git*'
 ```
 
-Then in Claude: **Settings → Capabilities → Skills → Upload skill**, and choose
-`x402-tools.zip`.
+#### Then allow network access, or `inspect` will fail
 
-⚠️ On the web, the skill runs in Anthropic's sandbox rather than on your machine. Two
-consequences: outbound network access may be restricted, so `inspect` can fail on
-endpoints that work fine locally; and the DNS-resolution safety check is skipped, since
-there is no private network to protect. The desktop install is the one that behaves
-exactly as documented here.
+On the web the skill runs in Anthropic's sandbox, which has **no outbound network by
+default**. Until you open it up, `inspect` fails with a message like:
+
+> Host not in allowlist: cpi-report-us.underscoredone.com. Add this host to your network
+> egress settings to allow access.
+
+That's the sandbox refusing to make the request — not the endpoint rejecting you, and not a
+sign the skill is broken. To fix it, go to **Settings → Capabilities**, turn on network
+egress, and add the host you're testing, for example:
+
+```
+cpi-report-us.underscoredone.com
+```
+
+Then re-run. Two gotchas:
+
+- **Wildcards don't work.** `*.underscoredone.com` is rejected; every subdomain you test
+  needs its own exact entry.
+- On a managed/organization account this setting may be admin-controlled, in which case you
+  can't change it yourself.
+
+⚠️ Even with egress open, the web sandbox has no wallet, so it can only read the 402
+challenge (price, networks, tokens) — it can't pay. Paid calls need a payments MCP
+connector, which means Claude Desktop or Claude Code. The DNS-resolution safety check is
+also skipped on the web, since there is no private network to protect. The desktop install
+is the one that behaves exactly as documented here.
 
 ### Command line only
 

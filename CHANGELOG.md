@@ -2,6 +2,16 @@
 
 All notable changes to this skill. Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [Unreleased]
+
+### Added
+- `SKILL.md`: a "How much to report" section — report every field the tool returned by
+  default, and narrow only when the prompt narrows it.
+- `README.md`: click-only claude.ai install (Download ZIP → rename → Compress → Settings →
+  Skills → Add → Upload a skill), and the sandbox network-egress step that `inspect`
+  requires there. Notes that wildcard hosts are rejected, so each subdomain needs its own
+  exact entry.
+
 ## [1.0.0] — 2026-08-17
 
 First release.
