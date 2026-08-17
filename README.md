@@ -32,18 +32,59 @@ token contract itself.
 
 ## Install
 
+Pick the one that matches where you use Claude. There is no `npm install` in any of them.
+
+### Claude Desktop, or Claude Code
+
+Both read the same folder on your machine, so one clone covers both:
+
 ```bash
 git clone https://github.com/underscoredone/x402-tools-skill.git ~/.claude/skills/x402-tools
 ```
 
-That's it — no `npm install`. For a project-scoped skill, clone into `.claude/skills/`
-instead. Restart your session and ask:
+Restart Claude and the skill is available. To scope it to a single project instead, clone
+into that project's `.claude/skills/` folder.
+
+Updating later:
+
+```bash
+cd ~/.claude/skills/x402-tools && git pull
+```
+
+### Claude on the web (claude.ai)
+
+The web app can't read your disk, so upload the skill as a zip:
+
+```bash
+git clone https://github.com/underscoredone/x402-tools-skill.git
+zip -r x402-tools.zip x402-tools-skill -x '*.git*'
+```
+
+Then in Claude: **Settings → Capabilities → Skills → Upload skill**, and choose
+`x402-tools.zip`.
+
+⚠️ On the web, the skill runs in Anthropic's sandbox rather than on your machine. Two
+consequences: outbound network access may be restricted, so `inspect` can fail on
+endpoints that work fine locally; and the DNS-resolution safety check is skipped, since
+there is no private network to protect. The desktop install is the one that behaves
+exactly as documented here.
+
+### Command line only
+
+No Claude required — the tools work as a plain CLI. See
+[Use it directly](#use-it-directly).
+
+---
+
+Once installed, just ask in plain language:
 
 > what does https://hash-hmac.underscoredone.com/hash cost?
 
 > can I pay for that API with Solana?
 
 > read the openapi for dns-whois.underscoredone.com
+
+You don't need to name the skill — Claude picks it up from the question.
 
 ## Use it directly
 
