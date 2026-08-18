@@ -131,16 +131,6 @@ The tool refuses private, loopback, link-local, and internal addresses, and re-c
 where a hostname actually resolves — including after every redirect. If a URL is
 refused, that is deliberate; do not try to work around it.
 
-## Hosted version
-
-The same two tools are available as a hosted MCP server, if the user would rather not
-run anything locally:
-
-- MCP: `https://x402mcp.underscoredone.com/mcp`
-- REST: `https://x402mcp.underscoredone.com/inspect?url=...`
-
-Free, no account, no key, nothing logged.
-
 ---
 
 x402 Tools by _done — https://underscoredone.com/x402-tools

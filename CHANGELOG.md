@@ -22,6 +22,14 @@ All notable changes to this skill. Format follows [Keep a Changelog](https://kee
   requires there. Notes that wildcard hosts are rejected, so each subdomain needs its own
   exact entry.
 
+### Removed
+- All references to the hosted MCP server, from `README.md`, `SKILL.md`, `package.json`
+  keywords and `scripts/sync-core.sh`. The skill ships on its own; the MCP server is not
+  launched yet.
+
+### Changed
+- `README.md` cut roughly in half — same content, far less of it.
+
 ## [1.0.0] — 2026-08-17
 
 First release.

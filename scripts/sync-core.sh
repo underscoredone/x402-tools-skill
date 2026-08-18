@@ -4,7 +4,7 @@
 #
 # The skill must run with nothing installed, so it carries a committed single-file build
 # of the core instead of an npm dependency. Run this after any change to x402-core, and
-# commit the result — otherwise the skill and the hosted MCP quietly drift apart.
+# commit the result — otherwise the skill and the core quietly drift apart.
 #
 # Usage:  ./scripts/sync-core.sh [path-to-x402-core]
 
