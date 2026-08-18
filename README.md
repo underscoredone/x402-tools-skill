@@ -19,7 +19,15 @@ An x402 endpoint answers an unpaid request with `402` and a base64 blob. Decode 
 
 No `npm install` in any of these.
 
-**Claude Desktop / Claude Code** — both read the same folder:
+**Easiest** — one command, works for Claude Code and Claude Desktop:
+
+```bash
+npx skills add underscoredone/x402-tools-skill
+```
+
+Restart Claude afterwards.
+
+**Or clone it yourself — Claude Desktop / Claude Code** — both read the same folder:
 
 ```bash
 git clone https://github.com/underscoredone/x402-tools-skill.git ~/.claude/skills/x402-tools
