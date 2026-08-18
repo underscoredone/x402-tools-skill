@@ -38,6 +38,27 @@ node scripts/x402.mjs decode <base64-value>
 
 Requires only Node 18+. Nothing to install — the engine is bundled in `lib/`.
 
+### Run both, by default
+
+When someone points at an endpoint — "what does X cost?", "inspect X", "/x402-tools for
+X" — run **`inspect` and then `openapi`**, and report both. The 402 challenge and the
+spec answer different questions: the challenge is what the endpoint charges right now,
+the spec is what it documents about itself — its full parameter list, response schema,
+error codes, and agent-readable `x-*` metadata. Someone deciding whether to call an API
+needs both, and `openapi` also produces the spec-vs-live comparison, which exists only if
+you run it.
+
+```bash
+node scripts/x402.mjs inspect https://api.syraa.fun/bitcoin --method POST --body '{}'
+node scripts/x402.mjs openapi https://api.syraa.fun/bitcoin
+```
+
+`openapi` takes the same URL as `inspect` — it walks up to the origin itself to search.
+
+Skip the `openapi` run only when the question is narrowly about payment ("is it Solana?",
+"just the price") or when the user asked for `inspect` alone. If no spec is found, say so
+in one line and move on — a missing spec is a fact worth reporting, not a failure to hide.
+
 ### Inspecting an endpoint
 
 ```bash
@@ -110,8 +131,33 @@ round trip. So unless asked otherwise, pass along:
 - the settlement timeout, resource, scheme, and MIME type
 - any example request and response the endpoint publishes
 - every decoded header, the full `Notes` section, and the HTTP status
-- for `openapi`: which candidate paths were tried, which one resolved, and every row of the
-  comparison table — including rows where spec and live agree
+
+And from `openapi`, in the same detail:
+
+- the API title, version, OpenAPI version, and which URL the spec was found at — including
+  which candidate paths were tried before one resolved
+- the full description and the contact block
+- every server URL
+- **every operation**: method, path, summary, `operationId`, the request body schema with
+  each field's type, whether it is required, and its description, plus every documented
+  response code with its meaning
+- any example request and response bodies the spec carries
+- **every `x-*` metadata key in full** — `x-402`, `x-pricing`, `x-ai-instructions`,
+  `x-guidance`, `x-keywords`, `x-category`, `x-provider`, `x-openapi-url`,
+  `x-payment-accepts` and any others. These are written for agents specifically;
+  `x-ai-instructions` in particular often carries the calling rules that nothing else
+  states. Do not summarise them away.
+- **every row of the spec-vs-live comparison table**, including the rows that agree, and
+  the line saying what was probed and what it returned
+
+If no spec is found, report which paths were tried and that none resolved.
+
+**When a spec covers many operations.** Some specs are gateway-wide — `api.syraa.fun`
+documents 35 operations for one endpoint you asked about. There, give the operation the
+user actually pointed at in full detail as above, then list every other operation compactly
+as method, path and summary — one line each. List all of them; a compact line is not the
+same as omitting it, and the reader needs to know what else the API offers. The `x-*`
+metadata and the comparison table stay in full either way.
 
 Narrow the output only when the prompt actually narrows it — "just the price", "which
 networks?", "is it Solana?", "one line". Then answer that and stop. A specific question is a

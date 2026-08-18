@@ -22,6 +22,12 @@ All notable changes to this skill. Format follows [Keep a Changelog](https://kee
   requires there. Notes that wildcard hosts are rejected, so each subdomain needs its own
   exact entry.
 
+- `SKILL.md`: run `openapi` alongside `inspect` by default when someone points at an
+  endpoint, and report the spec in the same detail as the challenge — title, servers,
+  every operation and its parameters, every `x-*` metadata key, and every row of the
+  spec-vs-live comparison. Gateway-wide specs get the asked-about operation in full and
+  every other operation as one compact line.
+
 ### Removed
 - All references to the hosted MCP server, from `README.md`, `SKILL.md`, `package.json`
   keywords and `scripts/sync-core.sh`. The skill ships on its own; the MCP server is not
